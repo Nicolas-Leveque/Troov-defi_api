@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+.env
+
+.idea/vcs.xml
+
+.idea/Troov-defi_api.iml
+
+.idea/
