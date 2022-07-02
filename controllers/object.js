@@ -3,9 +3,8 @@ const Object = require('../models/objects');
 
 exports.createObject = async (req, res) => {
     try {
-        const newObject = JSON.parse(req.body.object);
         const object = new Object({
-            ...newObject,
+            ...req.body,
             imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
         });
         await object.save()
@@ -19,7 +18,7 @@ exports.modifyObject =async (req, res) => {
     try {
         const newObject = req.file
             ? {
-                ...JSON.parse(req.body.object),
+                ...req.body,
                 imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
             }
             : { ...req.body }
@@ -32,9 +31,10 @@ exports.modifyObject =async (req, res) => {
             { _id: req.params.id},
         { ...newObject, _id: req.params.id}
         )
-        if (!sauce) {
+        if (!object) {
             res.status(404).send()
         }
+        res.status(200).json({ message: "Objet modifié" });
     } catch (e) {
         res.status(500).send(e)
     }
