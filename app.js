@@ -2,10 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const mongoSanitize = require('express-mongo-sanitize');
-const userRouter = require('./router/user')
-const cors = require('cors');
-require('dotenv').config();
 
+const userRouter = require('./router/user');
+const objectRouter = require('./router/object');
+
+const cors = require('cors');
+const path = require('path');
+require('dotenv').config();
 
 const app = express();
 
@@ -25,6 +28,9 @@ mongoose.connect(
 app.use(cors(corsOption));
 app.use(bodyParser.json());
 app.use(mongoSanitize());
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
 app.use('/api/user', userRouter);
+app.use('/api/object', objectRouter);
 
 module.exports = app;
