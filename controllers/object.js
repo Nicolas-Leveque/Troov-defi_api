@@ -43,8 +43,8 @@ exports.modifyObject =async (req, res) => {
 exports.deleteObject = async (req, res ) =>{
     try {
         const object = await Object.findOne({ _id: req.params.id })
-        const filename = object.imageUrl.split('/images/')[1]
-        fs.unlinkSync(`images/${filename}`)
+        const filename = object.imageUrl.split('images/')[1]
+        fs.unlinkSync(`./images/${filename}`)
         await Object.deleteOne({ _id: req.params.id })
         res.status(200).json({ message: 'Objet supprimé' })
     } catch (e) {
